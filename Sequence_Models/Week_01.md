@@ -97,20 +97,27 @@
 
 
 
++ RNN 언어모델 Training vs. Sampling
+
+  ![image-20230830000104735](Week_01.assets/image-20230830000104735.png)
+
+  + Training : $x_i = y_{i-1}$ 로 Training
+  + Sampling : 초기 $a_0, x_0$ 를 이용하여 $\hat{y}_1$ 를 생성하고, 이의 조건부 확률을 이용하여 $\hat{y}_i$ 를 반복적으로 생성
 
 
-+  언제까지 문장을 생성할 것인가?
+
++ 언제까지 문장을 생성할 것인가?	
 
   + EOS 를 어휘에 포함시킨다면, EOS가 나올 때까지 샘플링 가능
 
-  + 그렇지 않다면, 단어의 개수를 정해서 샘플링가
+  + 그렇지 않다면, 단어의 개수를 정해서 샘플링 가능
 
 
 
 
 
-+ Character-level language model
-  + vocabulary = [a-Z0-9,.:"'']
++ [번외] Character-level language model
+  + vocabulary = [a-Z0-9,.:"''] 로 문자만 사용
   + 장점
     + 모르는 토큰을 걱정할 필요 없음 (UNK)
   + 단점
@@ -121,6 +128,64 @@
     + 오늘날 널리 사용되지 않음
     + 알 수 없는 단어를 많이 다룰 필요가 있는 경우 사용
     + 전문화 된 어휘를 가지고 있는 곳에서 사용
+
+
+
+
+
+# Vanishing Gradients with RNNs
+
+> **학습내용**
+>
+> + RNN의 문제점인 기울기 소실과 해결방안
+> + 기울기 폭발의 해결방안
+
+
+
++ 언어 모델의 일관성 유지가 필요함
+  + 예시
+    + The cat , which ..., was
+    + The cats , which ..., were
+  + 기울기 소실 문제
+    + 역전파에서 기울기 소실 문제가 있다면 주어와 동사 사이의 길이가 매우 길어지는 경우, 모델은 단수형(복수형)인 것을 외워서 was(were)를 도출해내는 것에 어려움을 겪음
+      + RNN 역시 기울기 소실 문제를 가지고 있음
+      + RNN은 장거리 의존성 파악에 어려움을 겪음
+    + 해결방법 (여러 방법들이 필요함)
+      + GRU (Gated Recurrent Unit) : 기울기 소실을 완화하고 더욱 장거리의 의존성을 포착하도록 해줌
+  + 기울기 폭발 문제
+    + 매개변수의 값이 매우 커지므로 포착하기 쉬움
+    + 해결방법
+      + 그래디언트 클래핑을 통해 값을 제한시
+
+
+
+
+
+# Gated Recurrent Unit (GRU)
+
+
+
++ 기울기 소실의 문제를 해결하기 위해 RNN의 hidden layer를 수정
+
+
+
++ RNN unit
++ GRU unit
+  + c(memory cell)와 a가 같음 (LSTM에서는 다름)
+  + $\tilde{c}_t$ 는 $c_t$ 의 대체후보가 됨
+  + GRU의 핵심 아이디어는 Gate를 가지는 것 : $\Gamma_u$ : 0 ~ 1 사이값
+  + 두 번째 핵심아이디어는 Gate $\Gamma_u$ 가 $c_t$를 $\tilde{c}_t$ 로 업데이트 시킬지 정하는 것
+  + 
+
+
+
+
+
+
+
+
+
+
 
 
 
