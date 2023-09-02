@@ -163,25 +163,43 @@
 
 # Gated Recurrent Unit (GRU)
 
-
-
-+ 기울기 소실의 문제를 해결하기 위해 RNN의 hidden layer를 수정
+> **학습내용**
+>
+> + GRU의 아이디어와 모델 구성
 
 
 
 + RNN unit
-+ GRU unit
+
++ GRU unit (Simple version)
+
+  ![image-20230902212055514](Week_01.assets/image-20230902212055514.png)
+
+  + 기울기 소실의 문제를 해결하기 위해 RNN의 hidden layer를 수정
   + c(memory cell)와 a가 같음 (LSTM에서는 다름)
   + $\tilde{c}_t$ 는 $c_t$ 의 대체후보가 됨
   + GRU의 핵심 아이디어는 Gate를 가지는 것 : $\Gamma_u$ : 0 ~ 1 사이값
   + 두 번째 핵심아이디어는 Gate $\Gamma_u$ 가 $c_t$를 $\tilde{c}_t$ 로 업데이트 시킬지 정하는 것
-  + 
 
 
 
++ GRU unit (Full version : $\Gamma_r$ 추가됨)
+
+  + $\tilde{c}^{<t>}=\tanh \left(W_c\left[c^{<t-1>}, x^{<t>}\right]+b_c\right)$ $\overset{게이트 1개 추가}{\rightarrow} \tilde{c}^{<t>}=\tanh \left(W_c\left[\Gamma_r *c^{<t-1>}, x^{<t>}\right]+b_c\right)$
+    + $r$은 relevance (적절성)을 뜻하고, $\Gamma_r$은  $c^{<t-1>} $이 $\tilde{c}^{<t>}$ 를 계산하는 데 얼마나 적합한지를 나타냄
+    + $\Gamma_r=\sigma\left(W_r\left[c^{<t-1>}, x^{<t>}\right]+b_r\right)$
+    + $\Gamma_r$ 을 추가한 이유는 장거리의존성을 모델링하고 기울기 소실문제를 해결하기 위한 여러 시도의 결과
+
+  + $\Gamma_u=\sigma\left(W_u\left[c^{<t-1>}, x^{<t>}\right]+b_u\right)$
+
+  + $c^{<t>}=\Gamma_u * \tilde{c}^{<t>}+\left(1-\Gamma_u\right) * c^{<t-1>}$
 
 
 
++ GRU 의미
+  + RNN에 장거리 의존성을 포착하기 위한 아이디어가 추가된 것
+    + memory cell 추가
+    + memory cell Update를 위한 Gate 추가
 
 
 
