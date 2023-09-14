@@ -130,3 +130,40 @@
     + Word Embedding : fixed Vocab에 대해서만 훈련이 진행되고, 그 밖은 <UNK> 로 훈련됨.
     + Face Recognition : train 때 보지 못한 얼굴이 들어와도 인식하도록 훈련함
 
+
+
+
+
+## 1.3. Properties of Word Embeddings
+
+> **학습목표**
+>
+> + Word Embedding이 갖는 성질인 유추성에 대한 직관파악
+
+
+
+![image-20230914224041075](Summary.assets/image-20230914224041075.png)
+
++ 궁금증
+
+  + Man $\simeq$ Woman $\Rightarrow$ King $\simeq$ ? 에서 King에 대응되는 ?를 Man과 Woman의 관계를 통해서 알 수 있을까?
+
++ 답변
+
+  + 있다!
+
+  + HOW?
+
+    1. $e_{man} - e_{woman} \simeq e_{king} - e_?$ 이므로,  $e_? \simeq e_{king} + e_{woman} - e_{man}$ 이다.
+
+       ![image-20230914224718986](Summary.assets/image-20230914224718986.png)
+
+    2. 따라서 **$\text{argmax}_w sim(e_w, e_{king} + e_{woman} - e_{man})$** 인 임베딩 벡터 $e_w$를 찾으면 됨!
+       + 논문에 의하면 이와같은 방식의 추론의 정확도(정확히 일치)가 35~70%라고 알려짐
+
+  + 주의점
+
+    + t-SNE와 같은 차원축소 방법으로 임베딩 벡터를 차원 축소시킨 이후에는 위와 같은 관계가 보존되지 않음
+
+
+
